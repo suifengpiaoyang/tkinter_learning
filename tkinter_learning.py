@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import scrolledtext
 
 win = tk.Tk()
 win.title('Python GUI')
@@ -11,6 +12,9 @@ win.title('Python GUI')
 COLOR1 = 'Blue'
 COLOR2 = 'Gold'
 COLOR3 = 'Red'
+
+scrolW = 30
+scrolH = 3
 
 # 相关函数
 def click_me():
@@ -79,5 +83,10 @@ rad2.grid(row = 5,column = 1,sticky = tk.W)
 
 rad3 = tk.Radiobutton(win,text = COLOR3,variable = rad_var,value = 3,command = rad_call)
 rad3.grid(row = 5,column = 2,sticky = tk.W)
+
+# 添加下拉滚动条
+# 在换行时，以单词为分界点，就是说在换行时不会分割单词
+scr = scrolledtext.ScrolledText(win,width = scrolW,height = scrolH,wrap = tk.WORD)
+scr.grid(column = 0,columnspan = 3,row = 6)
 
 win.mainloop()
