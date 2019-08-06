@@ -9,9 +9,7 @@ win.title('Python GUI')
 # win.resizable(0,0)
 
 # 常量
-COLOR1 = 'Blue'
-COLOR2 = 'Gold'
-COLOR3 = 'Red'
+colors = ['Blue','Gold','Red']
 
 scrolW = 30
 scrolH = 3
@@ -25,12 +23,12 @@ def click_me():
 
 def rad_call():
     color_flag = rad_var.get()
-    if color_flag == 1:
-        win.configure(background = COLOR1)
+    if color_flag == 0:
+        win.configure(background = colors[0])
+    elif color_flag == 1:
+        win.configure(background = colors[1])
     elif color_flag == 2:
-        win.configure(background = COLOR2)
-    elif color_flag == 3:
-        win.configure(background = COLOR3)
+        win.configure(background = colors[2])
 
 # 添加标签
 label1 = ttk.Label(win,text = 'Enter a name:')
@@ -75,14 +73,12 @@ check3.grid(row = 2,column = 2)
 
 # 添加单选按钮
 rad_var = tk.IntVar()
-rad1 = tk.Radiobutton(win,text = COLOR1,variable = rad_var,value = 1,command = rad_call)
-rad1.grid(row = 5,column = 0,sticky = tk.W)
-
-rad2 = tk.Radiobutton(win,text = COLOR2,variable = rad_var,value = 2,command = rad_call)
-rad2.grid(row = 5,column = 1,sticky = tk.W)
-
-rad3 = tk.Radiobutton(win,text = COLOR3,variable = rad_var,value = 3,command = rad_call)
-rad3.grid(row = 5,column = 2,sticky = tk.W)
+# 设置一个不存在的值，不然一开始就会选中第一个单选按钮
+rad_var.set(99)
+for col in range(3):
+    cur_cad = 'rad' + str(col)
+    cur_cad = tk.Radiobutton(win,text = colors[col],variable = rad_var,value = col,command = rad_call)
+    cur_cad.grid(row = 5,column = col,sticky = tk.W)
 
 # 添加下拉滚动条
 # 在换行时，以单词为分界点，就是说在换行时不会分割单词
