@@ -9,20 +9,29 @@ win.title('Python GUI')
 
 # 相关函数
 def click_me():
-    button1.configure(text = 'Hello ' + name.get())
+    button1.configure(text = 'Hello ' + name.get() + ' ' + num.get())
 
 # 添加标签
 label1 = ttk.Label(win,text = 'Enter a name:')
 label1.grid(row = 0,column = 0)
+label2 = ttk.Label(win,text = 'Choose a number:')
+label2.grid(row = 0,column = 1)
 
 # 添加按钮
 button1 = ttk.Button(win,text = 'Click Me!',command = click_me)
-button1.grid(row = 1,column = 1)
+button1.grid(row = 1,column = 2)
 
 # 添加输入框
 name = tk.StringVar()
 entry1 = ttk.Entry(win,width = 12,textvariable = name)
 entry1.grid(row = 1,column = 0)
+
+# 添加下拉列表框
+num = tk.StringVar()
+combobox1 = ttk.Combobox(win,width = 12,textvariable = num)
+combobox1['values'] = (1,2,4,42,100)
+combobox1.grid(row = 1,column = 1)
+combobox1.current(0)
 
 # 设置光标一开始就在输入框内
 entry1.focus()
