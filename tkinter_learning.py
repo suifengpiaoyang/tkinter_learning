@@ -1,9 +1,16 @@
+import re
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
 
 win = tk.Tk()
 win.title('Python GUI')
+
+# 界面设置
+
+# 因为在后面需要窗口居中效果，而一开始需要隐藏窗口，
+# 这样后续才不会在屏幕上面出现闪影
+# win.withdraw()
 
 # 界面不能改变大小
 # win.resizable(0,0)
@@ -15,6 +22,7 @@ scrolW = 30
 scrolH = 3
 
 # 相关函数
+
 def click_me():
     button1.configure(text = 'Hello ' + name.get() + ' ' + num.get())
     print(check_button_flag_1.get(),type(check_button_flag_1.get()))
@@ -29,6 +37,24 @@ def rad_call():
         win.configure(background = colors[1])
     elif color_flag == 2:
         win.configure(background = colors[2])
+
+def center_window(master,width_flag = 0.382,height_flag = 0.382):
+    """
+    窗口先隐藏到大小设置完成以后才恢复，主要原因是如果不这么做，会发生闪影现象。
+    width_flag 和 height_flag 值在 (0,1) ，是定位目标左上角的坐标的权重值。
+    都设置为 0.5 的话，则窗口居中。默认是窗口放在黄金比例上。
+    withdraw() 函数是隐藏窗口，deiconify() 函数是显示窗口。
+    update() 函数是将前面原件摆放以后的窗口更新，以便获得摆放后窗口的自适配大小。
+    """
+    master.withdraw()
+    master.update()
+    current_window_width,current_window_height = [int(line) for line in re.findall(r'(\d*)x(\d*)', master.geometry())[0]]
+    screen_width = master.winfo_screenwidth()
+    screen_height = master.winfo_screenheight()
+    suitable_width = int((screen_width - current_window_width)*width_flag)
+    suitable_height = int((screen_height - current_window_height)*height_flag)
+    master.geometry('{}x{}+{}+{}'.format(current_window_width,current_window_height,suitable_width,suitable_height))
+    master.deiconify()
 
 # 添加标签
 label1 = ttk.Label(win,text = 'Enter a name:')
@@ -84,5 +110,7 @@ for col in range(3):
 # 在换行时，以单词为分界点，就是说在换行时不会分割单词
 scr = scrolledtext.ScrolledText(win,width = scrolW,height = scrolH,wrap = tk.WORD)
 scr.grid(column = 0,columnspan = 3,row = 6)
+
+center_window(win)
 
 win.mainloop()
