@@ -1,6 +1,7 @@
 import re
 import tkinter as tk
 from tkinter import ttk
+from tkinter import Menu
 from tkinter import scrolledtext
 
 win = tk.Tk()
@@ -9,7 +10,7 @@ win.title('Python GUI')
 # 界面设置
 
 # 界面不能改变大小
-# win.resizable(0,0)
+win.resizable(0,0)
 
 # 常量
 colors = ['Blue','Gold','Red']
@@ -51,6 +52,25 @@ def center_window(master,width_flag = 0.382,height_flag = 0.382):
     suitable_height = int((screen_height - current_window_height)*height_flag)
     master.geometry('{}x{}+{}+{}'.format(current_window_width,current_window_height,suitable_width,suitable_height))
     master.deiconify()
+
+def __quit(master):
+    master.quit()
+    master.destroy()
+    exit()
+
+# 增加菜单栏
+menubar = Menu(win)
+win.config(menu = menubar)
+
+file_menu = Menu(menubar,tearoff = 0)
+file_menu.add_command(label = 'New')
+file_menu.add_separator()
+file_menu.add_command(label = 'Exit',command = lambda:__quit(win))
+menubar.add_cascade(label = 'File',menu = file_menu)
+
+help_menu = Menu(menubar,tearoff = 0)
+help_menu.add_command(label = 'About')
+menubar.add_cascade(label = 'Help',menu = help_menu)
 
 # 增加 levelFrame
 
