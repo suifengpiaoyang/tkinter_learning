@@ -53,55 +53,55 @@ def center_window(master,width_flag = 0.382,height_flag = 0.382):
     master.deiconify()
 
 # 增加 levelFrame
-label_frame = ttk.LabelFrame(win,text = 'Levels in a Frame ')
-label_frame.grid(row = 7,column = 0,padx = 20,pady = 40)
+
+monty = ttk.LabelFrame(win,text = ' Monty Python ')
+monty.grid(row = 0,column = 0,padx = 10,pady = 5)
+
+label_frame = ttk.LabelFrame(monty,text = 'Levels in a Frame ')
+label_frame.grid(row = 7,column = 0)
 
 # 在 levelFrame 上添加标签
 for i in range(3):
     ttk.Label(label_frame,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
 
-# lebel_frame 中所有部件设置
-for child in label_frame.winfo_children():
-    child.grid_configure(padx = 8,pady = 4)
-
 # 添加标签
-label1 = ttk.Label(win,text = 'Enter a name:')
-label1.grid(row = 0,column = 0)
-label2 = ttk.Label(win,text = 'Choose a number:')
+label1 = ttk.Label(monty,text = 'Enter a name:')
+label1.grid(row = 0,column = 0,sticky = 'W')
+label2 = ttk.Label(monty,text = 'Choose a number:')
 label2.grid(row = 0,column = 1)
 
 # 添加按钮
-button1 = ttk.Button(win,text = 'Click Me!',command = click_me)
+button1 = ttk.Button(monty,text = 'Click Me!',command = click_me)
 button1.grid(row = 1,column = 2)
 
 # 添加输入框
 name = tk.StringVar()
-entry1 = ttk.Entry(win,width = 12,textvariable = name)
-entry1.grid(row = 1,column = 0)
+entry1 = ttk.Entry(monty,width = 12,textvariable = name)
+entry1.grid(row = 1,column = 0,sticky = tk.W)
 
 # 设置光标一开始就在输入框内
 entry1.focus()
 
 # 添加下拉列表框
 num = tk.StringVar()
-combobox1 = ttk.Combobox(win,width = 12,textvariable = num)
+combobox1 = ttk.Combobox(monty,width = 12,textvariable = num)
 combobox1['values'] = (1,2,4,42,100)
 combobox1.grid(row = 1,column = 1)
 combobox1.current(0)
 
 # 添加复选按钮
 check_button_flag_1 = tk.IntVar()
-check1 = tk.Checkbutton(win,text = 'Disabled',variable = check_button_flag_1,state = 'disabled')
+check1 = tk.Checkbutton(monty,text = 'Disabled',variable = check_button_flag_1,state = 'disabled')
 check1.select()
 check1.grid(row = 2,column = 0)
 
 check_button_flag_2 = tk.IntVar()
-check2 = tk.Checkbutton(win,text = 'UnChecked',variable = check_button_flag_2)
+check2 = tk.Checkbutton(monty,text = 'UnChecked',variable = check_button_flag_2)
 check2.deselect()
 check2.grid(row = 2,column = 1)
 
 check_button_flag_3 = tk.IntVar()
-check3 = tk.Checkbutton(win,text = 'Enabled',variable = check_button_flag_3)
+check3 = tk.Checkbutton(monty,text = 'Enabled',variable = check_button_flag_3)
 check3.select()
 check3.grid(row = 2,column = 2)
 
@@ -111,13 +111,21 @@ rad_var = tk.IntVar()
 rad_var.set(99)
 for col in range(3):
     cur_cad = 'rad' + str(col)
-    cur_cad = tk.Radiobutton(win,text = colors[col],variable = rad_var,value = col,command = rad_call)
+    cur_cad = tk.Radiobutton(monty,text = colors[col],variable = rad_var,value = col,command = rad_call)
     cur_cad.grid(row = 5,column = col,sticky = tk.W)
 
 # 添加下拉滚动条
 # 在换行时，以单词为分界点，就是说在换行时不会分割单词
-scr = scrolledtext.ScrolledText(win,width = scrolW,height = scrolH,wrap = tk.WORD)
-scr.grid(column = 0,columnspan = 3,row = 6)
+scr = scrolledtext.ScrolledText(monty,width = scrolW,height = scrolH,wrap = tk.WORD)
+scr.grid(column = 0,columnspan = 3,row = 4,sticky = 'WE')
+
+# labelFrame 中所有部件设置
+
+for child in monty.winfo_children():
+    child.grid_configure(padx = 5,pady = 1)
+
+for child in label_frame.winfo_children():
+    child.grid_configure(padx = 5,pady = 4)
 
 center_window(win)
 
