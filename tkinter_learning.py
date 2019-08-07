@@ -54,11 +54,15 @@ def center_window(master,width_flag = 0.382,height_flag = 0.382):
 
 # 增加 levelFrame
 label_frame = ttk.LabelFrame(win,text = 'Levels in a Frame ')
-label_frame.grid(row = 7,column = 0)
+label_frame.grid(row = 7,column = 0,padx = 20,pady = 40)
 
 # 在 levelFrame 上添加标签
 for i in range(3):
     ttk.Label(label_frame,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
+
+# lebel_frame 中所有部件设置
+for child in label_frame.winfo_children():
+    child.grid_configure(padx = 8,pady = 4)
 
 # 添加标签
 label1 = ttk.Label(win,text = 'Enter a name:')
