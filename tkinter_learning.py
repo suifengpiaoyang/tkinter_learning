@@ -8,10 +8,6 @@ win.title('Python GUI')
 
 # 界面设置
 
-# 因为在后面需要窗口居中效果，而一开始需要隐藏窗口，
-# 这样后续才不会在屏幕上面出现闪影
-# win.withdraw()
-
 # 界面不能改变大小
 # win.resizable(0,0)
 
@@ -55,6 +51,14 @@ def center_window(master,width_flag = 0.382,height_flag = 0.382):
     suitable_height = int((screen_height - current_window_height)*height_flag)
     master.geometry('{}x{}+{}+{}'.format(current_window_width,current_window_height,suitable_width,suitable_height))
     master.deiconify()
+
+# 增加 levelFrame
+label_frame = ttk.LabelFrame(win,text = 'Levels in a Frame ')
+label_frame.grid(row = 7,column = 0)
+
+# 在 levelFrame 上添加标签
+for i in range(3):
+    ttk.Label(label_frame,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
 
 # 添加标签
 label1 = ttk.Label(win,text = 'Enter a name:')
