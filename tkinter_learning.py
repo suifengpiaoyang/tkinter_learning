@@ -16,7 +16,7 @@ win.resizable(0,0)
 colors = ['Blue','Gold','Red']
 
 scrolW = 30
-scrolH = 3
+scrolH = 7
 
 # 相关函数
 
@@ -29,11 +29,11 @@ def click_me():
 def rad_call():
     color_flag = rad_var.get()
     if color_flag == 0:
-        win.configure(background = colors[0])
+        tab2.configure(background = colors[0])
     elif color_flag == 1:
-        win.configure(background = colors[1])
+        tab2.configure(background = colors[1])
     elif color_flag == 2:
-        win.configure(background = colors[2])
+        tab2.configure(background = colors[2])
 
 def center_window(master,width_flag = 0.382,height_flag = 0.382):
     """
@@ -59,8 +59,7 @@ def __quit(master):
     exit()
 
 def change_bg_color(color_index):
-    print(color_index)
-    win.configure(background = colors[color_index])
+    tab2.configure(background = colors[color_index])
 
 # 增加菜单栏
 menubar = Menu(win)
@@ -79,23 +78,37 @@ color_menu.add_command(label = colors[1],command = lambda:change_bg_color(1))
 color_menu.add_command(label = colors[2],command = lambda:change_bg_color(2))
 menubar.add_cascade(label = 'Color',menu = color_menu)
 
-
 # add help menu
 help_menu = Menu(menubar,tearoff = 0)
 help_menu.add_command(label = 'About')
 menubar.add_cascade(label = 'Help',menu = help_menu)
 
+# add tab
+tab_control = ttk.Notebook(win)
+tab_control.grid(row = 0,column = 0)
+
+tab1 = tk.Frame(tab_control)
+tab1.grid(row = 0,column = 0)
+tab_control.add(tab1,text = 'Tab1')
+
+tab2 = tk.Frame(tab_control)
+tab2.grid(row = 0,column = 0,sticky = 'WE')
+tab_control.add(tab2,text = 'Tab2')
+
 # 增加 levelFrame
 
-monty = ttk.LabelFrame(win,text = ' Monty Python ')
+monty = ttk.LabelFrame(tab1,text = ' Monty Python ')
 monty.grid(row = 0,column = 0,padx = 10,pady = 5)
 
-label_frame = ttk.LabelFrame(monty,text = 'Levels in a Frame ')
-label_frame.grid(row = 7,column = 0)
+label_frame = ttk.LabelFrame(tab2,text = 'The Snake')
+label_frame.grid(row = 0,column = 0,sticky = 'WE',padx = 10,pady = 5)
+
+label_frame2 = ttk.LabelFrame(label_frame,text = 'Levels in a Frame ')
+label_frame2.grid(row = 7,column = 0)
 
 # 在 levelFrame 上添加标签
-for i in range(3):
-    ttk.Label(label_frame,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
+for i in range(2):
+    ttk.Label(label_frame2,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
 
 # 添加标签
 label1 = ttk.Label(monty,text = 'Enter a name:')
@@ -124,19 +137,19 @@ combobox1.current(0)
 
 # 添加复选按钮
 check_button_flag_1 = tk.IntVar()
-check1 = tk.Checkbutton(monty,text = 'Disabled',variable = check_button_flag_1,state = 'disabled')
+check1 = tk.Checkbutton(label_frame,text = 'Disabled',variable = check_button_flag_1,state = 'disabled')
 check1.select()
-check1.grid(row = 2,column = 0)
+check1.grid(row = 2,column = 0,sticky = 'W')
 
 check_button_flag_2 = tk.IntVar()
-check2 = tk.Checkbutton(monty,text = 'UnChecked',variable = check_button_flag_2)
+check2 = tk.Checkbutton(label_frame,text = 'UnChecked',variable = check_button_flag_2)
 check2.deselect()
-check2.grid(row = 2,column = 1)
+check2.grid(row = 2,column = 1,sticky = 'W')
 
 check_button_flag_3 = tk.IntVar()
-check3 = tk.Checkbutton(monty,text = 'Enabled',variable = check_button_flag_3)
+check3 = tk.Checkbutton(label_frame,text = 'Enabled',variable = check_button_flag_3)
 check3.select()
-check3.grid(row = 2,column = 2)
+check3.grid(row = 2,column = 2,sticky = 'W')
 
 # 添加单选按钮
 rad_var = tk.IntVar()
@@ -144,7 +157,7 @@ rad_var = tk.IntVar()
 rad_var.set(99)
 for col in range(3):
     cur_cad = 'rad' + str(col)
-    cur_cad = tk.Radiobutton(monty,text = colors[col],variable = rad_var,value = col,command = rad_call)
+    cur_cad = tk.Radiobutton(label_frame,text = colors[col],variable = rad_var,value = col,command = rad_call)
     cur_cad.grid(row = 5,column = col,sticky = tk.W)
 
 # 添加下拉滚动条
@@ -155,10 +168,16 @@ scr.grid(column = 0,columnspan = 3,row = 4,sticky = 'WE')
 # labelFrame 中所有部件设置
 
 for child in monty.winfo_children():
-    child.grid_configure(padx = 5,pady = 1)
+    child.grid_configure(padx = 5,pady = 2)
 
 for child in label_frame.winfo_children():
     child.grid_configure(padx = 5,pady = 4)
+
+for child in label_frame2.winfo_children():
+    child.grid_configure(padx = 5,pady = 4)
+
+for child in tab2.winfo_children():
+    child.grid_configure(padx = 5,pady = 4) 
 
 center_window(win)
 
