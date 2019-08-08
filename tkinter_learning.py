@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import Menu
 from tkinter import scrolledtext
+from tkinter import messagebox as mBox
 
 win = tk.Tk()
 win.title('Python GUI')
@@ -61,6 +62,16 @@ def __quit(master):
 def change_bg_color(color_index):
     tab2.configure(background = colors[color_index])
 
+def __msgbox():
+    # mBox.showinfo('Python Message Info Box', 'A Python GUI created using tkinter:\nThe year is 2015.')
+    # mBox.showwarning('Python Message Warning Box', 'A Python GUI created using tkinter:\nWarning: There might be a bug in this code.')    
+    # mBox.showerror('Python Message Error Box', 'A Python GUI created using tkinter:\nError: Houston ~ we DO have a serious PROBLEM!')
+    flag = mBox.askyesno("Python Message Dual Choice Box", "Are you sure you really wish to do this?")
+    if flag:
+        print('You choose Yes')
+    else:
+        print('You choose No')
+
 # 增加菜单栏
 menubar = Menu(win)
 win.config(menu = menubar)
@@ -80,7 +91,7 @@ menubar.add_cascade(label = 'Color',menu = color_menu)
 
 # add help menu
 help_menu = Menu(menubar,tearoff = 0)
-help_menu.add_command(label = 'About')
+help_menu.add_command(label = 'About',command = __msgbox)
 menubar.add_cascade(label = 'Help',menu = help_menu)
 
 # add tab
