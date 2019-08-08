@@ -58,6 +58,10 @@ def __quit(master):
     master.destroy()
     exit()
 
+def change_bg_color(color_index):
+    print(color_index)
+    win.configure(background = colors[color_index])
+
 # 增加菜单栏
 menubar = Menu(win)
 win.config(menu = menubar)
@@ -68,6 +72,15 @@ file_menu.add_separator()
 file_menu.add_command(label = 'Exit',command = lambda:__quit(win))
 menubar.add_cascade(label = 'File',menu = file_menu)
 
+# add color menu
+color_menu = Menu(menubar,tearoff = 0)
+color_menu.add_command(label = colors[0],command = lambda:change_bg_color(0))
+color_menu.add_command(label = colors[1],command = lambda:change_bg_color(1))
+color_menu.add_command(label = colors[2],command = lambda:change_bg_color(2))
+menubar.add_cascade(label = 'Color',menu = color_menu)
+
+
+# add help menu
 help_menu = Menu(menubar,tearoff = 0)
 help_menu.add_command(label = 'About')
 menubar.add_cascade(label = 'Help',menu = help_menu)
