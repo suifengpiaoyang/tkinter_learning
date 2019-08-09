@@ -72,10 +72,12 @@ def __msgbox():
     else:
         print('You choose No')
 
-def _spin():
-    value = spin.get()
+def _spin(spin_name):
+    value = spin_name.get()
     print(value)
     scr.insert(tk.INSERT,value + '\n')
+    # 一直将滚动条自动滚动到末端
+    scr.see(tk.END)
 
 # 增加菜单栏
 menubar = Menu(win)
@@ -182,8 +184,16 @@ scr = scrolledtext.ScrolledText(monty,width = scrolW,height = scrolH,wrap = tk.W
 scr.grid(column = 0,columnspan = 3,row = 4,sticky = 'WE')
 
 # adding a spinbox widget
-spin = tk.Spinbox(monty,values = (1,2,4,42,100),width = 5,bd = 8,command = _spin)
+spin = tk.Spinbox(monty,values = (1,2,4,42,100),width = 5,bd = 8,command = lambda:_spin(spin))
 spin .grid(row = 2,column = 0)
+
+'''
+the relief param have four values to choose:
+default is tk.SUNKEN
+except is tk.RAISED,tk.FLAT,tk.GROOVE,tk.RIDGE
+'''
+spin2 = tk.Spinbox(monty,values = (0,50,100),width = 5,bd = 8,command = lambda:_spin(spin2),relief = tk.RIDGE)
+spin2.grid(row = 2,column = 1)
 
 # labelFrame 中所有部件设置
 
