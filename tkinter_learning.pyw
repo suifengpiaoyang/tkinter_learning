@@ -72,6 +72,11 @@ def __msgbox():
     else:
         print('You choose No')
 
+def _spin():
+    value = spin.get()
+    print(value)
+    scr.insert(tk.INSERT,value + '\n')
+
 # 增加菜单栏
 menubar = Menu(win)
 win.config(menu = menubar)
@@ -175,6 +180,10 @@ for col in range(3):
 # 在换行时，以单词为分界点，就是说在换行时不会分割单词
 scr = scrolledtext.ScrolledText(monty,width = scrolW,height = scrolH,wrap = tk.WORD)
 scr.grid(column = 0,columnspan = 3,row = 4,sticky = 'WE')
+
+# adding a spinbox widget
+spin = tk.Spinbox(monty,values = (1,2,4,42,100),width = 5,bd = 8,command = _spin)
+spin .grid(row = 2,column = 0)
 
 # labelFrame 中所有部件设置
 
