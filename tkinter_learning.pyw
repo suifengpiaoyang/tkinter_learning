@@ -1,4 +1,3 @@
-import re
 import tkinter as tk
 from tkinter import ttk
 from tkinter import Menu
@@ -46,12 +45,13 @@ def center_window(master,width_flag = 0.382,height_flag = 0.382):
     """
     master.withdraw()
     master.update()
-    current_window_width,current_window_height = [int(line) for line in re.findall(r'(\d*)x(\d*)', master.geometry())[0]]
+    current_window_width = master.winfo_width()
+    current_window_height = master.winfo_height()
     screen_width = master.winfo_screenwidth()
     screen_height = master.winfo_screenheight()
-    suitable_width = int((screen_width - current_window_width)*width_flag)
-    suitable_height = int((screen_height - current_window_height)*height_flag)
-    master.geometry('{}x{}+{}+{}'.format(current_window_width,current_window_height,suitable_width,suitable_height))
+    suitable_location_x = int((screen_width - current_window_width)*width_flag)
+    suitable_location_y = int((screen_height - current_window_height)*height_flag)
+    master.geometry('+{}+{}'.format(suitable_location_x,suitable_location_y))
     master.deiconify()
 
 def __quit(master):
@@ -119,7 +119,7 @@ monty = ttk.LabelFrame(tab1,text = ' Monty Python ')
 monty.grid(row = 0,column = 0,padx = 10,pady = 5)
 
 label_frame = ttk.LabelFrame(tab2,text = 'The Snake')
-label_frame.grid(row = 0,column = 0,sticky = 'WE',padx = 10,pady = 5)
+label_frame.grid(row = 0,column = 0,padx = 20,pady = 31)
 
 label_frame2 = ttk.LabelFrame(label_frame,text = 'Levels in a Frame ')
 label_frame2.grid(row = 7,column = 0)
@@ -200,15 +200,12 @@ spin2.grid(row = 2,column = 1)
 for child in monty.winfo_children():
     child.grid_configure(padx = 5,pady = 2)
 
-for child in label_frame.winfo_children():
-    child.grid_configure(padx = 5,pady = 4)
-
 for child in label_frame2.winfo_children():
     child.grid_configure(padx = 5,pady = 4)
 
-for child in tab2.winfo_children():
-    child.grid_configure(padx = 5,pady = 4) 
-
 center_window(win)
-
+# 添加图标
+# 图标放在 窗口居中以后添加会减少很多问题
+# 比如闪影，原因善不可知
+win.iconbitmap('./icon/hallow.ico')
 win.mainloop()
