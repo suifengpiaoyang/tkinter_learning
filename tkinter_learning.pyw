@@ -112,6 +112,15 @@ tab2 = tk.Frame(tab_control)
 tab2.grid(row = 0,column = 0,sticky = 'WE')
 tab_control.add(tab2,text = 'Tab2')
 
+tab3 = tk.Frame(tab_control,bg = 'blue')
+tab3.grid(row = 0,column = 0)
+tab_control.add(tab3,text = 'tab3')
+
+# 增加 canvas
+for orange_color in range(2):
+    canvas = tk.Canvas(tab3,width = 206,height = 131,highlightthickness = 0,bg = 'orange')
+    canvas.grid(row = orange_color,column = orange_color)
+
 # 增加 levelFrame
 
 monty = ttk.LabelFrame(tab1,text = ' Monty Python ')
