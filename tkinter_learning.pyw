@@ -1,13 +1,15 @@
+import time
 import tkinter as tk
 from tkinter import ttk
 from tkinter import Menu
 from tkinter import scrolledtext
 from tkinter import messagebox as mBox
+from threading import Thread
 
 # 常量
 colors = ['Blue','Gold','Red']
-scrolW = 30
-scrolH = 7
+scrolW = 40
+scrolH = 10
 
 class GUI:
 
@@ -22,11 +24,28 @@ class GUI:
 
     # 相关函数
 
+    def test_thread(self,num_of_loops = 10):
+        print('Hi, how are you?')
+        for i in range(num_of_loops):
+            time.sleep(1)
+            self.scr.insert(tk.INSERT, str(i) + '\n')
+            self.scr.see(tk.END)
+        time.sleep(1)
+        print('method in a thread():',self.run_thread.isAlive())
+
+    def create_thread(self,**kwargs):
+        self.run_thread = Thread(**kwargs)
+        self.run_thread.setDaemon(True)
+        self.run_thread.start()
+        print(self.run_thread)
+        print('method in a thread():',self.run_thread.isAlive())
+
     def click_me(self):
         self.button1.configure(text = 'Hello ' + self.name.get() + ' ' + self.num.get())
         print(self.check_button_flag_1.get(),type(self.check_button_flag_1.get()))
         print(self.check_button_flag_2.get(),type(self.check_button_flag_2.get()))
         print(self.check_button_flag_3.get(),type(self.check_button_flag_3.get()))
+        self.create_thread(target = self.test_thread,args = [8])
 
     def rad_call(self):
         color_flag = self.rad_var.get()
@@ -142,7 +161,7 @@ class GUI:
             ttk.Label(label_frame2,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
 
         # 添加标签
-        label1 = ttk.Label(monty,text = 'Enter a self.name:')
+        label1 = ttk.Label(monty,text = 'Enter a name:')
         label1.grid(row = 0,column = 0,sticky = 'W')
         label2 = ttk.Label(monty,text = 'Choose a number:')
         label2.grid(row = 0,column = 1)
@@ -153,7 +172,7 @@ class GUI:
 
         # 添加输入框
         self.name = tk.StringVar()
-        entry1 = ttk.Entry(monty,width = 12,textvariable = self.name)
+        entry1 = ttk.Entry(monty,width = 24,textvariable = self.name)
         entry1.grid(row = 1,column = 0,sticky = tk.W)
 
         # 设置光标一开始就在输入框内
@@ -161,7 +180,7 @@ class GUI:
 
         # 添加下拉列表框
         self.num = tk.StringVar()
-        combobox1 = ttk.Combobox(monty,width = 12,textvariable = self.num)
+        combobox1 = ttk.Combobox(monty,width = 14,textvariable = self.num)
         combobox1['values'] = (1,2,4,42,100)
         combobox1.grid(row = 1,column = 1)
         combobox1.current(0)
@@ -197,16 +216,16 @@ class GUI:
         self.scr.grid(column = 0,columnspan = 3,row = 4,sticky = 'WE')
 
         # adding a spinbox widget
-        spin = tk.Spinbox(monty,values = (1,2,4,42,100),width = 5,bd = 8,command = lambda:self._spin(spin))
-        spin .grid(row = 2,column = 0)
+        self.spin = tk.Spinbox(monty,values = (1,2,4,42,100),width = 5,bd = 8,command = lambda:self._spin(self.spin))
+        self.spin.grid(row = 2,column = 0,sticky = 'w')
 
         '''
         the relief param have four values to choose:
         default is tk.SUNKEN
         except is tk.RAISED,tk.FLAT,tk.GROOVE,tk.RIDGE
         '''
-        spin2 = tk.Spinbox(monty,values = (0,50,100),width = 5,bd = 8,command = lambda:self._spin(spin2),relief = tk.RIDGE)
-        spin2.grid(row = 2,column = 1)
+        # spin2 = tk.Spinbox(monty,values = (0,50,100),width = 5,bd = 8,command = lambda:self._spin(spin2),relief = tk.RIDGE)
+        # spin2.grid(row = 2,column = 1)
 
         # labelFrame 中所有部件设置
 
