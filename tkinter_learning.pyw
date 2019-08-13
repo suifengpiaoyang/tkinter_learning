@@ -5,6 +5,7 @@ from tkinter import Menu
 from tkinter import scrolledtext
 from tkinter import messagebox as mBox
 from threading import Thread
+from queue import Queue
 
 # 常量
 colors = ['Blue','Gold','Red']
@@ -17,12 +18,21 @@ class GUI:
         self.win = tk.Tk()
         self.win.title('Python GUI')
         self.win.resizable(0,0)         # 设置界面手动不能改变大小
+        self.gui_queue = Queue()
         self.create_widgets()
         self.center_window(self.win)
         self.win.iconbitmap('./icon/hallow.ico') # 添加图标，最好在居中之后添加，不然可能会产生闪影，原因不明。
         self.win.mainloop()
 
     # 相关函数
+
+    def use_queue(self):
+        gui_queue = Queue()
+        print(gui_queue)
+        for i in range(10):
+            gui_queue.put('Message from a queue: '+ str(i))
+        while not gui_queue.empty():
+            print(gui_queue.get())
 
     def test_thread(self,num_of_loops = 10):
         print('Hi, how are you?')
@@ -40,12 +50,17 @@ class GUI:
         print(self.run_thread)
         print('method in a thread():',self.run_thread.isAlive())
 
+        write_t = Thread(target = self.use_queue,daemon = True)
+        write_t.start()
+
     def click_me(self):
         self.button1.configure(text = 'Hello ' + self.name.get() + ' ' + self.num.get())
         print(self.check_button_flag_1.get(),type(self.check_button_flag_1.get()))
         print(self.check_button_flag_2.get(),type(self.check_button_flag_2.get()))
         print(self.check_button_flag_3.get(),type(self.check_button_flag_3.get()))
-        self.create_thread(target = self.test_thread,args = [8])
+        self.create_thread()
+        # self.create_thread(target = self.test_thread,args = [8])
+        # self.create_thread(target = self.use_queue)
 
     def rad_call(self):
         color_flag = self.rad_var.get()
