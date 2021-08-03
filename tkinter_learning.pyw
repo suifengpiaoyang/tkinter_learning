@@ -1,3 +1,4 @@
+import os
 import time
 import tkinter as tk
 from tkinter import ttk
@@ -6,6 +7,7 @@ from tkinter import scrolledtext
 from tkinter import messagebox as mBox
 from threading import Thread
 from queue import Queue
+from tkinter import filedialog as fd
 
 # 常量
 colors = ['Blue','Gold','Red']
@@ -115,6 +117,25 @@ class GUI:
         # 一直将滚动条自动滚动到末端
         self.scr.see(tk.END)
 
+    def get_file_name(self):
+        print('hello from get_file_name')
+        f_dir = os.path.dirname(__file__)
+        f_name = fd.askopenfilename(parent = self.win,initialdir = f_dir)
+        print(f_dir)
+
+    def copy_file(self):
+        import shutil
+        src = self.file_entry.get()
+        file = src.split('/')[-1]
+        dst = self.netw_entry.get() + '\\' + file
+        try:
+            shutil.copy(src, dst)
+            mBox.showinfo('Copy File to Network','Success: File copied.')
+        except FileNotFoundError as err:
+            mBox.showerror('Copy File to Network','*** Failed to copy file! ***\n\n' + str(err))
+        except Exception as ex:
+            mBox.showerror('Copy File to Network','*** Failed to copy file! ***\n\n' + str(ex))
+
     def create_widgets(self):
 
         # 增加菜单栏
@@ -171,6 +192,8 @@ class GUI:
         label_frame2 = ttk.LabelFrame(label_frame,text = 'Levels in a Frame ')
         label_frame2.grid(row = 7,column = 0)
 
+        file_frame = ttk.LabelFrame(self.tab2,text = ' Manage Files: ')
+        file_frame.grid(row = 1,column = 0,sticky = 'WE',padx = 10,pady = 5)
         # 在 levelFrame 上添加标签
         for i in range(2):
             ttk.Label(label_frame2,text = 'Label{}'.format(i + 1)).grid(row = i,column = 0)
@@ -184,6 +207,21 @@ class GUI:
         # 添加按钮
         self.button1 = ttk.Button(monty,text = 'Click Me!',command = self.click_me)
         self.button1.grid(row = 1,column = 2)
+
+        lb = ttk.Button(file_frame,text = 'Browse to File...',command = self.get_file_name)
+        lb.grid(row = 0,column = 0,sticky = tk.W)
+
+        cb = ttk.Button(file_frame,text = 'Copy File to :   ',command = self.copy_file)
+        cb.grid(row = 1,column = 0,sticky = tk.E)
+
+        file = tk.StringVar()
+        self.entry_len = scrolW
+        self.file_entry = ttk.Entry(file_frame,width = self.entry_len,textvariable = file)
+        self.file_entry.grid(row = 0 ,column = 1,sticky = tk.W)
+
+        log_dir = tk.StringVar()
+        self.netw_entry = ttk.Entry(file_frame,width = self.entry_len,textvariable = log_dir)
+        self.netw_entry.grid(row = 1,column = 1,sticky = tk.W)
 
         # 添加输入框
         self.name = tk.StringVar()
@@ -249,6 +287,9 @@ class GUI:
 
         for child in label_frame2.winfo_children():
             child.grid_configure(padx = 5,pady = 4)
+
+        for child in file_frame.winfo_children():
+            child.grid_configure(padx = 6,pady = 6)
 
 if __name__ == '__main__':
     gui = GUI()
